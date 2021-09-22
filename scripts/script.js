@@ -50,7 +50,7 @@ function viewBookCardNormal() {
     cardTitleText.textContent = myLibrary[currentBookView].title;
     cardAuthorText.textContent = myLibrary[currentBookView].author;
     cardGenreText.textContent = myLibrary[currentBookView].genre;
-    if (myLibrary[currentBookView].isRead) {
+    if (myLibrary[currentBookView].isRead == 'true') {
         cardIsReadText.textContent = "Yes";
     } else {
         cardIsReadText.textContent = "No";
@@ -88,16 +88,16 @@ function viewAllBooks() {
 
             const allCardTitle = document.createElement('div');
             allCardNumber.appendChild(allCardTitle);
-            allCardTitle.textContent = myLibrary[i].title;
+            allCardTitle.textContent = "Title: " + myLibrary[i].title;
             const allCardAuthor = document.createElement('div');
             allCardNumber.appendChild(allCardAuthor);
-            allCardAuthor.textContent = myLibrary[i].author;
+            allCardAuthor.textContent = "Author: " + myLibrary[i].author;
             const allCardGenre = document.createElement('div');
             allCardNumber.appendChild(allCardGenre);
-            allCardGenre.textContent = myLibrary[i].genre;
+            allCardGenre.textContent = "Genre: " + myLibrary[i].genre;
             const allCardIsRead = document.createElement('div');
             allCardNumber.appendChild(allCardIsRead);
-            if (myLibrary[i].isRead) {
+            if (myLibrary[i].isRead == 'true') {
                 allCardIsRead.textContent = "Read";
             } else {
                 allCardIsRead.textContent = "Not Read";
@@ -147,6 +147,7 @@ function saveBooksArray() {
 
         let storedString = title + ',' + author + ',' + genre + ',' + isRead; // create a string with each property separated by a comma
         localStorage.setItem(i, storedString); // send string of data at index i to localstorage
+        console.log(storedString);
     }
 }
 
@@ -159,13 +160,8 @@ function loadBooksArray() {
         myLibrary[control] = bookVar; // set book object to its index position using control variable
         control++;
     }
+    console.table(myLibrary);
 }
-/* 
-// manually create and add books to library for testing
-addBookToLibrary(new Book("Title1" , "Author1", "Genre1", false));
-addBookToLibrary(new Book("Title2" , "Author2", "Genre2", false));
-addBookToLibrary(new Book("Title3" , "Author3", "Genre3", false));
-addBookToLibrary(new Book("Title4" , "Author4", "Genre4", false)); */
 
 // add event listener to control buttons
 const newBook = document.querySelector('#newBook');

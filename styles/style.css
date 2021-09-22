@@ -1,20 +1,29 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
-    background-color: grey;
+    background-color: #f0f0f0;
 }
 
 .controls {
     display: flex;
-    background-color: lightskyblue;
+    background-color: #e0e0e0;
     justify-content: center;
-    padding: 12px;
+    padding: 4px;
+}
+
+#loadData {
+    margin-right: auto;
+}
+
+#saveData {
+    margin-left: auto;
 }
 
 .displayContainer {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
+    align-items: center;
 }
 
 .formPopup {
@@ -23,6 +32,7 @@
 
 .newBookForm {
     display: none;
+    margin-bottom: 24px;
 }
 
 .formContainer {
@@ -30,10 +40,11 @@
     flex-direction: column;
     align-items: center;
     min-width: 300px;
-    border: 1px solid blue;
+    background-color: #e0e0e0;
     padding: 12px;
     text-align: center;
     gap: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .formContainer button {
@@ -42,12 +53,14 @@
 }
 
 .bookCard {
-    border: 1px solid red;
+    background-color: #e0e0e0;
     display: flex;
     flex-direction: column;
     min-width: 300px;
     margin: 24px;
     padding: 12px;
+    gap: 4px;
+    text-align: center;
 }
 
 .cardInfo {
@@ -63,21 +76,34 @@
 
 .allBooksContainer {
     display: block;
-    background-color: green;
 }
 
 .allBooksPopup {
     display: flex;
-    flex-direction: column;
-    background-color: lightgreen;
-    border: 1px solid blue;
-    margin: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.controls button {
+button {
     margin: 12px;
+    border: 2px solid #2980b6;
+    border-radius: 5px;
+    background-color: #3096d6;
+    color: white;
+    font-weight: bold;
+    padding: 4px;
+    box-shadow: 1px 1px black;
+    width: 100px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+button:active {
+    background-color: #3eb3fc;
+    transform: translateY(1px);
 }
 
 p {
     margin: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
