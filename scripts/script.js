@@ -19,8 +19,14 @@ function userAddNewBook() {
     let title = document.getElementById('bookTitle').value;
     let author = document.getElementById('bookAuthor').value;
     let genre = document.getElementById('bookGenre').value;
-    let isRead = document.getElementById('haveRead').value;
+    let isRead;
 
+    if (document.getElementById('haveRead').checked) {
+        isRead = 'true';
+    } else {
+        isRead = 'false';
+    }
+    console.log(isRead);
     // don't allow user to enter blank information
     if (title == "" || author == "" || genre == "") {
         alert("Invalid input. Please fill out all fields.")
