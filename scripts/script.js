@@ -1,14 +1,57 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore/lite';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import '../styles/style.css';
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCMYxcl0NEID2ZfRyzJAJgWL0jtslzgM_o",
+  authDomain: "toplibrary-1b962.firebaseapp.com",
+  projectId: "toplibrary-1b962",
+  storageBucket: "toplibrary-1b962.appspot.com",
+  messagingSenderId: "221788127750",
+  appId: "1:221788127750:web:2ee7f61efd6f1bc9a23987"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// sign in to firebase
+async function signIn() {
+  var provider = new GoogleAuthProvider();
+  await signInWithPopup(getAuth(), provider);
+  console.log(`signed in as ${getUserName}`);
+}
+
+function getUserName() {
+  return getAuth().currentUser.displayName;
+}
+
+// Sign out of Firebase.
+function signOutUser() {
+  signOut(getAuth());
+  console.log('signed out');
+}
+
 let myLibrary = [];
 let currentBookView; // MUST be undefined to start for previous/next book buttons to start display at index 0
 let allBooksView = false;
 
-// book constructor function
-function Book(title, author, genre, isRead) {
-    this.title = title;
-    this.author = author;
-    this.genre = genre;
-    this.isRead = isRead;
-};
+// class for array controls
+class Book {
+    // book constructor function
+    constructor(title, author, genre, isRead) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.isRead = isRead;
+    }
+}
 
 // add an object book to the library
 function addBookToLibrary(book) {
@@ -26,7 +69,6 @@ function userAddNewBook() {
     } else {
         isRead = 'false';
     }
-    console.log(isRead);
     // don't allow user to enter blank information
     if (title == "" || author == "" || genre == "") {
         alert("Invalid input. Please fill out all fields.")
@@ -35,6 +77,48 @@ function userAddNewBook() {
         addBookToLibrary(bookToAdd);
         clearForm();
     }
+}
+
+function cardDeleteBook () {
+    myLibrary.splice(currentBookView, 1);
+    
+    if (currentBookView = myLibrary.length) { // if deleting last entry, decrement currentBookView prevent it from
+        currentBookView--;                    // being larger than the length of the array
+    }
+    if (myLibrary.length != 0){
+        viewBookCardNormal();
+    } else {
+        cardTitleText.textContent = "";
+        cardAuthorText.textContent = "";
+        cardGenreText.textContent = "";
+        cardIsReadText.textContent = "";
+    }
+
+}
+
+async function saveBooksArray() {
+  try {
+    await setDoc(doc(db, getUserName(), 'library'), {
+      name: getUserName(),
+      data: JSON.stringify(myLibrary)
+    });
+    console.log('file written')
+  }
+  catch(error) {
+    console.error('error saving to Firebase', error);
+  }
+}
+
+async function loadBooksArray() {
+  const docRef = doc(db, getUserName(), 'library');
+  const docSnap = await getDoc(docRef);
+  const libObj = await docSnap.data();
+
+  if (docSnap.exists()) {
+    myLibrary = JSON.parse(libObj.data);
+  } else {
+    console.log('failed to load or library does not exist');
+  }
 }
 
 function openForm() {
@@ -118,23 +202,6 @@ function viewAllBooks() {
     }
 }
 
-function cardDeleteBook () {
-    myLibrary.splice(currentBookView, 1);
-    
-    if (currentBookView = myLibrary.length) { // if deleting last entry, decrement currentBookView prevent it from
-        currentBookView--;                    // being larger than the length of the array
-    }
-    if (myLibrary.length != 0){
-        viewBookCardNormal();
-    } else {
-        cardTitleText.textContent = "";
-        cardAuthorText.textContent = "";
-        cardGenreText.textContent = "";
-        cardIsReadText.textContent = "";
-    }
-
-}
-
 function cardToggleRead() {
     myLibrary[currentBookView].isRead = !myLibrary[currentBookView].isRead;
     if (myLibrary[currentBookView].isRead) {
@@ -142,31 +209,6 @@ function cardToggleRead() {
     } else {
         cardIsReadText.textContent = "No";
     }
-}
-
-function saveBooksArray() {
-    for (let i = 0; i < myLibrary.length; i++) { // iterate for each element in array
-        let title = myLibrary[i].title; // get each property from each element
-        let author = myLibrary[i].author;
-        let genre = myLibrary[i].genre;
-        let isRead = myLibrary[i].isRead;
-
-        let storedString = title + ',' + author + ',' + genre + ',' + isRead; // create a string with each property separated by a comma
-        localStorage.setItem(i, storedString); // send string of data at index i to localstorage
-        console.log(storedString);
-    }
-}
-
-function loadBooksArray() {
-    let control = 0; // control variable for while loop
-    while (localStorage.getItem(control) != null) { // loop until control runs out of data in localstorage
-        let storedString = localStorage.getItem(control); // get string from storage
-        let arrString = storedString.split(','); // split string at commas
-        let bookVar = new Book(arrString[0], arrString[1], arrString[2], arrString[3]); // use array from .split() to populate book constructor
-        myLibrary[control] = bookVar; // set book object to its index position using control variable
-        control++;
-    }
-    console.table(myLibrary);
 }
 
 // add event listener to control buttons
@@ -182,6 +224,10 @@ const loadData = document.getElementById('loadData');
 loadData.addEventListener('click', loadBooksArray);
 const saveData = document.getElementById('saveData');
 saveData.addEventListener('click', saveBooksArray);
+const signInButton = document.getElementById('signIn');
+signInButton.addEventListener('click', signIn);
+const signOutButton = document.getElementById('signOut');
+signOutButton.addEventListener('click', signOutUser);
 
 // listeners on book cards
 const deleteBook = document.getElementById('deleteBook');

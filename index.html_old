@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craig's Library</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/script.js" defer></script>
+</head>
+<body>
+
+    <div class="mainContainer">
+        <div class="controls">
+            <button id="loadData">Load Local Data</button>
+            <button id="newBook">Add New Book</button>
+            <button id="prevBook">Previous Book</button>
+            <button id="nextBook">Next Book</button>            
+            <button id="displayAll">Display All Books</button>
+            <button id="saveData">Save Local Data</button>
+        </div>
+        <div class="displayContainer">
+            <div class="bookCard">
+                <div class="cardInfo" id="cardTitle">
+                    <p>Title: </p>
+                    <p id="cardTitleText"> </p>
+                </div>
+                <div class="cardInfo" id="cardAuthor">
+                    <p>Author: </p>
+                    <p id="cardAuthorText"> </p>
+                </div>
+                <div class="cardInfo" id="cardGenre">
+                    <p>Genre: </p>
+                    <p id="cardGenreText"> </p>
+                </div>
+                <div class="cardInfo" id="cardIsRead">
+                    <p>Finished: </p>
+                    <p id="cardIsReadText"> </p>
+                </div>
+                <div class="cardControls">
+                    <button id="deleteBook">Delete Book</button>
+                    <button id="toggleRead">Toggle Read</button>
+                </div>
+            </div>
+
+            <div class="formPopup" id="formPopup"></div>
+                <div class="newBookForm" id="newBookForm">
+                    <form class="formContainer">
+                        <div>
+                            <label for="bookTitle">Title: </label><br>
+                            <input type="text" id="bookTitle">
+                        </div>
+                        <div>
+                            <label for="bookAuthor">Author: </label><br>
+                            <input type="text" id="bookAuthor">
+                        </div>
+                        <div>
+                        <label for="bookGenre">Genre: </label><br>
+                        <input type="text" id="bookGenre">
+                        </div>
+                        <div>
+                        <label for="haveRead">Has been read: </label>
+                        <input type="checkbox" id="haveRead" name="haveRead" value="true">
+                        </div>
+                        <div>
+                        <button type="button" id="submitAdd">Submit</button>
+                        <button type="button" id="cancelAdd">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="allBooksContainer">
+            <div class="allBooksPopup"></div>
+        </div>
+    </div>
+</body>
+</html>
